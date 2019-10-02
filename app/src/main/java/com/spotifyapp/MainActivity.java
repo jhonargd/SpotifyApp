@@ -5,10 +5,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private ImageView headerImageView;
     NavigationView navigationView;
     RecyclerView recyclerView;
+    private DrawerLayout drawerLayout;
 
     private SharedPreferences msharedPreferences;
     private RequestQueue queue;
@@ -62,14 +65,17 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this, CreatePlaylist.class);
+                intent.putExtra("datosUsuario", user);
+                startActivity(intent);
             }
         });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -78,24 +84,51 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        try {
-            cargarDatosUsuario();
-        } catch (IOException e) {e.printStackTrace();
-
-        }
+        InitDrawer();
         cargarPlayList();
 
     }
 
-    private void cargarDatosUsuario() throws IOException {
+    private void InitDrawer()
+    {
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener()
+        {
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v)
+            {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View view)
+            {
+                //ConsultarNotificaciones();
+                //Picasso.get().load(DataController.getInstance().getDatosUsuario().getUsuario().getImagen()).into(headerImageView);
+                //headerImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view)
+            {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i)
+            {
+
+            }
+        });
+
+        navigationView = findViewById(R.id.nav_view);
+
+        View header = navigationView.getHeaderView(0);
 
         user = (User) getIntent().getParcelableExtra("datosUsuario");
         urlImage = getIntent().getStringExtra("imagen");
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
-
-        headerImageView = headerLayout.findViewById(R.id.header_image);
+        headerImageView = header.findViewById(R.id.header_image);
         Glide.with(MainActivity.this)
                 .load(urlImage)
                 .placeholder(R.mipmap.ic_launcher_round)
@@ -106,12 +139,24 @@ public class MainActivity extends AppCompatActivity
 
         headerImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        txtname = headerLayout.findViewById(R.id.txtname);
+        txtname = header.findViewById(R.id.txtname);
         txtname.setText(user.display_name);
-        txtemail = headerLayout.findViewById(R.id.txtemail);
+        txtemail = header.findViewById(R.id.txtemail);
         txtemail.setText(user.email);
 
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 
+    private void toggleDrawer()
+    {
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT))
+        {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        }
+        else
+        {
+            drawerLayout.openDrawer(Gravity.LEFT);
+        }
     }
 
     private void cargarPlayList() {
@@ -181,6 +226,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_perfil) {
 
+            toggleDrawer();
             Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
             intent.putExtra("datosUsuario", user);
             intent.putExtra("imagen", urlImage);
@@ -188,7 +234,7 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_salir) {
-
+            toggleDrawer();
             finish();
 
         }

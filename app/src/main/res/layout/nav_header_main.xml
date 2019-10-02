@@ -13,13 +13,14 @@
     android:orientation="vertical"
     android:gravity="bottom">
 
-    <ImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/header_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@mipmap/ic_launcher_round"
-        android:elevation="4dp"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:elevation="8dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/txtname"

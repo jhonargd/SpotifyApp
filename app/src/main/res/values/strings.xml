@@ -14,4 +14,10 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="title_activity_detalle_play_list">DetallePlayList</string>
+
+    <string-array name="estado">
+        <item>Publico</item>
+        <item>Privado</item>
+    </string-array>
+
 </resources>

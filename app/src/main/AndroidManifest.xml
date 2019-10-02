@@ -20,6 +20,14 @@
             android:label="Perfil"
             android:theme="@style/AppTheme"></activity>
         <activity
+            android:name=".BuscarActivity"
+            android:label="Busca Tu Canción"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".CreatePlaylist"
+            android:label="Crea tu Playlist"
+            android:theme="@style/AppTheme"></activity>
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>

@@ -10,7 +10,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.model.Cancion;
-import com.model.Items;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,19 +19,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CancionesServices {
+public class BuscarServices {
 
-    private static final String ENDPOINT = "https://api.spotify.com/v1/playlists/";
+    private static final String ENDPOINT = "https://api.spotify.com/v1/search";
     private SharedPreferences msharedPreferences;
     private RequestQueue mqueue;
+    private String busqueda;
 
-    Items playlist;
     private ArrayList<Cancion> canciones = new ArrayList<>();
 
-    public CancionesServices(RequestQueue queue, SharedPreferences sharedPreferences, Items playlist) {
+    public BuscarServices(RequestQueue queue, SharedPreferences sharedPreferences, String busqueda) {
         mqueue = queue;
         msharedPreferences = sharedPreferences;
-        this.playlist = playlist;
+        this.busqueda = busqueda;
     }
 
     public ArrayList<Cancion> getCanciones() {
@@ -41,17 +40,22 @@ public class CancionesServices {
 
     public ArrayList<Cancion> getRecentlyPlayedTracks(final VolleyCallBack callBack) {
 
-        String endpoint = ENDPOINT + playlist.id + "/tracks";
+        String endpoint = ENDPOINT + "?q=" + busqueda + "&type=track&market=ES";
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Gson gson = new Gson();
-                        JSONArray jsonArray = response.optJSONArray("items");
+
+                        JSONObject object1 = response.optJSONObject("tracks");
+                        //object1 = object1.optJSONObject("album");
+
+                        JSONArray jsonArray = object1.optJSONArray("items");
                         for (int n = 0; n < jsonArray.length(); n++) {
                             try {
                                 JSONObject object = jsonArray.getJSONObject(n);
-                                object = object.optJSONObject("track");
+                                //object = object.optJSONObject("album");
                                 Cancion song = gson.fromJson(object.toString(), Cancion.class);
                                 canciones.add(song);
                             } catch (JSONException e) {

@@ -91,6 +91,8 @@ public class DetallePlayList extends AppCompatActivity implements SongAdapter.To
         String uri = canciones.get(i).getUri();
         Intent launcher = new Intent( Intent.ACTION_VIEW, Uri.parse(uri) );
         startActivity(launcher);
+
+        
     }
 
     @Override
@@ -103,5 +105,14 @@ public class DetallePlayList extends AppCompatActivity implements SongAdapter.To
                 break;
         }
         return true;
+    }
+
+    public void onClickAgregarCancion(View view) {
+
+        Intent intent = new Intent(DetallePlayList.this, BuscarActivity.class);
+        intent.putExtra("datosUsuario", user);
+        intent.putExtra("item", items);
+        startActivity(intent);
+
     }
 }

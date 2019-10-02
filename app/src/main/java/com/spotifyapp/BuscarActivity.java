@@ -183,12 +183,17 @@ public class BuscarActivity extends AppCompatActivity implements AdapterView.OnI
 
                 String respuesta = response.message();
 
-                if (response.message().equals("OK"))
+
+                if(response.code() == 201)
                 {
-
-                    Toast.makeText(BuscarActivity.this, "Canción Agregada",
-                            Toast.LENGTH_LONG).show();
-
+                       BuscarActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(BuscarActivity.this, "Canción Agregada",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    finish();
 
                 }
             }

@@ -96,7 +96,7 @@ public class CreatePlaylist extends AppCompatActivity {
             //final CreatePlaylistServices playlistService = new CreatePlaylistServices(queue, msharedPreferences,CreatePlaylist.this);
 
             String json = new Gson().toJson(jsonPlayList);
-            final String url = "https://api.spotify.com/v1/playlists";
+            final String url = "https://api.spotify.com/v1/users/" + user.id + "/playlists";
 
             Networking.postJSON(url, json, msharedPreferences, new Callback()
             {
@@ -115,18 +115,16 @@ public class CreatePlaylist extends AppCompatActivity {
 
                     String respuesta = response.message();
 
-                    if (response.message().equals("OK"))
+                    if(response.code() == 201)
                     {
-
-                        Toast.makeText(CreatePlaylist.this, "playList NO Creado",
-                                Toast.LENGTH_LONG).show();
-                        //Util.MakeToast("MENSAJES ACTUALIZADOS", ActivityChat.this);
-                       /* ActivityChat.this.runOnUiThread(new Runnable() {
+                        CreatePlaylist.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                progressBar.setVisibility(View.INVISIBLE);
+                                Toast.makeText(CreatePlaylist.this, "PlayList Creada",
+                                        Toast.LENGTH_LONG).show();
                             }
-                        });*/
+                        });
+                        finish();
 
                     }
                 }

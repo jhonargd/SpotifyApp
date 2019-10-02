@@ -89,6 +89,12 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cargarPlayList();
+    }
+
     private void InitDrawer()
     {
         drawerLayout = findViewById(R.id.drawer_layout);

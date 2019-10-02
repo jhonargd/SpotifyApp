@@ -51,13 +51,15 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     {
         viewHolder.txtTitulo.setText(playLists[i].name);
 
-        Glide.with(cont)
-                .load(playLists[i].images[0].url)
-                .placeholder(R.mipmap.ic_launcher_round)
-                .dontAnimate()
-                .override(150, 150)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(viewHolder.imageView);
+        if (playLists[i].images != null && playLists[i].images.length > 0){
+            Glide.with(cont)
+                    .load(playLists[i].images[0].url)
+                    .placeholder(R.mipmap.ic_launcher_round)
+                    .dontAnimate()
+                    .override(150, 150)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(viewHolder.imageView);
+        }
 
         viewHolder.accion.setOnClickListener(new View.OnClickListener() {
             @Override

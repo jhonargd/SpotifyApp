@@ -53,6 +53,12 @@ public class DetallePlayList extends AppCompatActivity implements SongAdapter.To
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cargarCanciones();
+    }
+
     private void cargarDatos() {
 
         user = (User) getIntent().getParcelableExtra("datosUsuario");
@@ -109,7 +115,7 @@ public class DetallePlayList extends AppCompatActivity implements SongAdapter.To
 
     public void onClickAgregarCancion(View view) {
 
-        
+
         Intent intent = new Intent(DetallePlayList.this, BuscarActivity.class);
         intent.putExtra("datosUsuario", user);
         intent.putExtra("item", items);

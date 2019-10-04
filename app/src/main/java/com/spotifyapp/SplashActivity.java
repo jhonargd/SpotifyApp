@@ -100,7 +100,9 @@ public class SplashActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 intent.putExtra("datosUsuario", user);
-                intent.putExtra("imagen", user.images[0].url);
+                if(user.images.length > 0){
+                    intent.putExtra("imagen", user.images[0].url);
+                }
                 startActivity(intent);
                 finish();
 
